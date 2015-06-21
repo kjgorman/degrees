@@ -170,4 +170,62 @@
 
 \end{frame}
 
+\begin{frame}{A brief digression into neural networks}
+
+  A brief digression: neural networks.
+
+  \begin{itemize}
+  \item For this talk, considered supervised learners.
+  \item Given an input vector, produce an output vector.
+  \item Commonly, choose scalar with greatest value in output vector as
+    classification.
+  \item Train posterior classification through combination of input
+    probability and learned weightings.
+  \item Essentially just layered logistic regression, with training.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Logistic wha?}
+
+  Enter, the perceptron.
+
+  \begin{center}
+    \includegraphics[scale=0.4]{ptron}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}{Mulitlayered}
+  Exeunt perceptron, enter the multi-layer perceptron:
+
+  \begin{center}
+    \includegraphics[scale=0.4]{multi}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}{Gradient descent search}
+  Now, the question is: how do we choose good values for the
+  weightings?
+
+  \begin{itemize}
+    \item Need to have some measure of accuracy, ``fitness function''
+      (e.g. least squared error, minimal mis-classification)
+    \item Given the notion of ``distance'', we can propagate updates
+      to our weights proportional to distance (i.e. being very
+      incorrect has a much greater effect than being only slightly
+      off).
+    \item Called, unsurprisingly, backpropagation algorithm and uses
+      gradient descent search to find minima.
+    \item General idea: provide sets of input vectors with known
+      outputs, iterate search until we reach a termination condition
+      (perhaps just $n$ iterations, or net movement in error per epoch
+      etc.)
+    \item Seems somewhat similar to Bayes theorem (prior, likelihood,
+      evidence all contribute to a posterior), but the probabilities
+      themselves are still maximum likelihood (i.e. frequentist).
+  \end{itemize}
+\end{frame}
+
 \end{document}
