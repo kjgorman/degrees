@@ -15,8 +15,9 @@
       {An introduction to Bayesian probabilities and their application}
 
 \author{Kieran Gorman}
-\institute{Xero}
-\date{2015}
+%\institute{Xero}
+%\date{2015}
+
 \begin{document}
 
 \begin{frame}
@@ -57,7 +58,7 @@
 
   \begin{center}
     {\tiny
-      This also hold for continuous variables, as probability
+      This also holds for continuous variables, as probability
       densities, just replace $\sum$ with $\int$
     }
   \end{center}
@@ -120,8 +121,8 @@
 
   {\tiny
     This assumption is clearly false in almost all interesting
-    cases, however in general corpus is king. See ``unreasonable
-    effectiveness of data'', from Norvig at google.
+    cases, however in general corpus is king. See ``Unreasonable
+    effectiveness of data'', from Norvig.
   }
 
 \end{frame}
@@ -144,10 +145,10 @@
 
   We can see that by counting frequencies, we are fixing our
   probability estimator to one that maximises likelihood for computing
-  $p(x)$.
+  $p(x)$. \\
 
-  In contrast Bayesian probabilities factor in our prior degree of
-  belief more explicitly by dealing in probability distributions.
+  The Bayesian approach is to permit an uncertainty so our likelihood
+  is not beholden to the evidence alone.
 
 \end{frame}
 
@@ -157,74 +158,122 @@
     \item Consider for example events we have a degree of belief in
       occurring, but we can't readily measure (say, the state of the
       polar ice caps at the turn of the next century).
+    \item Frequencies require repeatability!
     \item Bayesian probabilities are sometimes called ``a logical
       approach to probabilities'' and can be derived from Cox's axioms
       (i.e. ``degrees of belief'') for example.
-    \item In frequentism we have a fixed probability and then error
-      bars on that probability representing multiple possible
-      datasets.
-    \item In Bayesianism, we have a single (observed) dataset, and
-      then an ``error'' in our probability by instead representing it
-      as a distribution.
   \end{itemize}
 
 \end{frame}
 
-\begin{frame}{A brief digression into neural networks}
-
-  A brief digression: neural networks.
+\begin{frame}
 
   \begin{itemize}
-  \item For this talk, considered supervised learners.
-  \item Given an input vector, produce an output vector.
-  \item Commonly, choose scalar with greatest value in output vector as
-    classification.
-  \item Train posterior classification through combination of input
-    probability and learned weightings.
-  \item Essentially just layered logistic regression, with training.
+    \item In Frequentism we have a fixed input, and hypothesise about
+      possible underlying datasets from which it might derive.
+    \item In Bayesianism, we only have the observed data, and the
+      uncertainty is in a probability distribution over the inputs.
+    \item Using a maximum likelihood function over fixed inputs
+      without catering for uncertainty in the hypothesis can lead to
+      extreme conclusions.
   \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Logistic wha?}
+\begin{frame}{Demo}
+  A slightly more involved demo.
+\end{frame}
 
-  Enter, the perceptron.
+\begin{frame}{Onwards}
 
-  \begin{center}
-    \includegraphics[scale=0.4]{ptron}
-  \end{center}
+  \begin{itemize}
+    \item What if we want to model dependencies?
+    \item Need more involved models!
+
+    \item Bayesian networks: probabilistic graphical models that
+      allow for belief propagation. (Look up Judea Pearl.)
+
+    \item Can't generally be computed in a closed form.
+  \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Mulitlayered}
-  Exeunt perceptron, enter the multi-layer perceptron:
+\begin{frame}{Iterative models}
+  \begin{itemize}
+    \item Because we were using Gaussians as the underlying
+      distribution of the na\"{i}ve classifier, we could compute the
+      max-likelihood parameter set in a closed form.
+    \item More complex models require a more explicit
+      parameterisation.
+    \item One example: neural networks.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Neural networks from 30,000ft}
+  \begin{itemize}
+    \item Given an input vector, produce an output vector.
+    \item Compare output vector to target with some notion of
+      ``fitness''
+    \item Update weightings to increase fitness. Iterate.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Neural networks from 29,999ft}
+  \begin{itemize}
+    \item How to update?
+    \item Back-propagation algorithm.
+  \end{itemize}
 
   \begin{center}
     \includegraphics[scale=0.4]{multi}
   \end{center}
-
 \end{frame}
 
 \begin{frame}{Gradient descent search}
-  Now, the question is: how do we choose good values for the
-  weightings?
+  \begin{itemize}
+    \item In general: gradient descent search.
+    \item Exploring a solution space.
+    \item Can be parallelised and made more robust to local optima
+      (particle swarm optimisation).
+    \item In the context of probabilities basically just trying to
+      integrate over parameter sets to find max-likelihood.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Intuitions}
+  \begin{itemize}
+    \item Overall: Bayesian probabilities provide a framework for
+      working with uncertainty.
+    \item In particular, having uncertain hypotheses maps conceptually
+      well with automated pattern recognition.
+    \item Lots of sampling and search techniques are basically just
+      trying to avoid doing integrals.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Exeunt}
+  \begin{itemize}
+    \item Corpus is king.
+    \item Uncertainty + priors implies parameterisation.
+    \item Large amounts of ML is choosing good priors and heuristics
+      for assumed latent distributions.
+    \item Doesn't actually require a lot of math.
+    \item It is lots of fun!
+    \item Can we start being more data-directed at Xero? No more hard
+      coded defaults or rules!
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Thanks}
+  Thanks!
 
   \begin{itemize}
-    \item Need to have some measure of accuracy, ``fitness function''
-      (e.g. least squared error, minimal mis-classification)
-    \item Given the notion of ``distance'', we can propagate updates
-      to our weights proportional to distance (i.e. being very
-      incorrect has a much greater effect than being only slightly
-      off).
-    \item Called, unsurprisingly, backpropagation algorithm and uses
-      gradient descent search to find minima.
-    \item General idea: provide sets of input vectors with known
-      outputs, iterate search until we reach a termination condition
-      (perhaps just $n$ iterations, or net movement in error per epoch
-      etc.)
-    \item Seems somewhat similar to Bayes theorem (prior, likelihood,
-      evidence all contribute to a posterior), but the probabilities
-      themselves are still maximum likelihood (i.e. frequentist).
+    \item References:
+    \begin{itemize}
+      \item Bishop --- Pattern Recognition and Machine Learning
+      \item Norvig --- Artificial Intelligence: A Modern Approach
+      \item Data sets: UCI Machine Learning Repository
+    \end{itemize}
   \end{itemize}
 \end{frame}
 
